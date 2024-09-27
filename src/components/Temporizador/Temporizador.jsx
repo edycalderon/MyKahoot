@@ -1,8 +1,13 @@
-import { useContext, useEffect, } from "react";
+import { useContext, useEffect, useState, } from "react";
 import { kahootContex } from "../../contexKahoot/Contexkahoot";
-
+import './style.css'
 const Temporizador = ({ time }) => {
-    const { horas, setHoras, minutes, setMinutes, seconds, setSeconds } = useContext(kahootContex)
+    // const [horas, setHoras] = useState(0)
+    // const [minutes, setMinutes] = useState(0)
+    // const [seconds, setSeconds] = useState(59)
+
+
+    const { horas, setHoras, minutes, setMinutes, seconds, setSeconds, correctas, incorrectas } = useContext(kahootContex)
     useEffect(() => {
         const hora = parseInt(time / 60)
         const minutos = time - (hora * 60)
@@ -33,10 +38,44 @@ const Temporizador = ({ time }) => {
 
     return (
         <>
-            <h1> {`${horas}: ${minutes}: ${seconds}`} </h1>
+            <div class="card bg-black text-center">
+                <div data-status="inprogress" class="teams">
+                    <span class="team-info team-away">
+                        <span class="team-info-container">
+                            <span class="team-info-container"></span>
+                            <span class="team-name-info">Correctas {correctas}</span>
+                        </span>
+                    </span>
+                    <span class="event-scoreboard">
+                        <span class="event-score-container">
+                            <span class="current-time-container">
+                                <span class="event-current-time">
+                                    <span class="current-part">{horas} Horas</span>
+                                </span>
+                                <span class="progress-dots" data-progress="1S">
+                                    <span class="load"></span>
+                                </span>
+                            </span>
+                            <span class="score-container">
+                                <span class="score-home">{horas}</span>
+                                <span class="custom-sep">-</span>
+                                <span class="score-away">{minutes}</span>
+                                <span class="custom-sep">-</span>
+                                <span class="score-away">{seconds}</span>
+                            </span>
+                        </span>
+                    </span>
+                    <span class="team-info team-home">
+                        <span class="team-info-container">
+                            <span class="team-name-info">Inconrrectas {incorrectas}</span>
+                        </span>
+                    </span>
+                </div>
+            </div>
 
         </>
     );
 }
 
 export default Temporizador;
+

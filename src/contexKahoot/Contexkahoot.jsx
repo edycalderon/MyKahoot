@@ -39,10 +39,17 @@ export const KahootProvider = ({ children }) => {
     const [tests, setTests] = useState({})
 
     //LayautAdmin//
-    const [teste, setTeste] = useState(JSON.parse(localStorage.getItem('tests')))
+    const teste = JSON.parse(localStorage.getItem('tests'))
 
     //CreateTest//
+    const [shows, setShows] = useState(false);
+    const [activate, setActivate] = useState({ respuesta1: true, respuesta2: true, respuesta3: true, respuesta4: true, contador: 1 })
+    const [preguntas, setPreguntast] = useState([])
 
+    const eliminarPreguntas = (items) => {
+        const filtredData = preguntas.filter(item => item.pregunta !== items);
+        setPreguntast(filtredData)
+    }
 
 
 
@@ -72,11 +79,11 @@ export const KahootProvider = ({ children }) => {
             //LayautAdmin//
             teste,
             //CreateTest//
-            // shows, setShows,
-            // activate, setActivate,
-            // preguntas, setPreguntast,
+            shows, setShows,
+            activate, setActivate,
+            preguntas, setPreguntast,
             
-            // eliminarPreguntas,
+            eliminarPreguntas,
             
         }}>
             {children}

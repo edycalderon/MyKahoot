@@ -7,8 +7,8 @@ import { kahootContex } from "../../contexKahoot/Contexkahoot";
 import './style.css'
 
 const CreateTest = () => {
-    // const { shows, setShows, preguntas, setPreguntast, activate, setActivate, 
-    //     eliminarPreguntas, } = useContext(kahootContex)
+    const { shows, setShows, preguntas, setPreguntast, activate, setActivate, 
+        eliminarPreguntas, } = useContext(kahootContex)
 
     const navigate = useNavigate('/')
     const handleClose = () => {
@@ -49,13 +49,6 @@ const CreateTest = () => {
         }
     })
 
-    const [shows, setShows] = useState(false);
-    const [activate, setActivate] = useState({ respuesta1: true, respuesta2: true, respuesta3: true, respuesta4: true, contador: 1 })
-    const [preguntas, setPreguntast] = useState([])
-        const eliminarPreguntas = (items) => {
-        const filtredData = preguntas.filter(item => item.pregunta !== items);
-        setPreguntast(filtredData)
-    }
 
     const onChangeTex = (event, onChange, name) => {
 
