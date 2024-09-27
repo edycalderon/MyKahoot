@@ -6,10 +6,10 @@ import { KahootProvider } from './contexKahoot/Contexkahoot.jsx';
 
 createRoot(document.getElementById('root')).render(
 
-  <KahootProvider>
+  
     <StrictMode>
       <RuutesKahoot />
     </StrictMode>,
-  </KahootProvider>
+  
 
 )

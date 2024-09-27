@@ -5,7 +5,8 @@ import { kahootContex } from "../../contexKahoot/Contexkahoot";
 import { useNavigate } from "react-router-dom";
 
 const LayaudAmin = () => {
-    const {teste} = useContext(kahootContex)
+    //const {teste} = useContext(kahootContex)
+    const teste = JSON.parse(localStorage.getItem('tests'))
     const navigate = useNavigate('/')
 
     const CopyLink = (code) => {

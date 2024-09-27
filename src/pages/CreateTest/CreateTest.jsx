@@ -1,106 +1,18 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Button, Col, Container, Form, Modal, Row, Table } from "react-bootstrap";
 import ImputRespuesta from "../../components/ImputRespuesta/ImputRespuesta";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+
 import { kahootContex } from "../../contexKahoot/Contexkahoot";
 import './style.css'
 
 const CreateTest = () => {
-    const { shows, setShows, preguntas, setPreguntast, activate, setActivate, 
-        eliminarPreguntas, } = useContext(kahootContex)
-
-    const navigate = useNavigate('/')
-    const handleClose = () => {
-        setShows(false);
-        setActivate({
-            respuesta1: true,
-            respuesta2: true,
-            respuesta3: true,
-            respuesta4: true,
-        })
-        reset({
-            pregunta: "",
-            respuesta1: "",
-            respuesta2: "",
-            respuesta3: "",
-            respuesta4: "",
-            respuestaCorrecta: "",
-        })
-    }
-    const handleShow = () => setShows(true);
+    const { shows, setShows, preguntas, setPreguntast, activate, setActivate, actualizarRespuestaCorrecta, onChangeTex,
+        handleCreateTest, eliminarPreguntas, navigate, onSubmit, handleShow, handleClose ,
+        register, control, handleSubmit, formState: { errors }, setValue, getValues, reset
+    } = useContext(kahootContex)
 
 
-
-
-
-    const { register, control, handleSubmit, formState: { errors }, setValue, getValues, reset } = useForm({
-        defaultValues: {
-            pregunta: "",
-            respuesta1: "",
-            respuesta2: "",
-            respuesta3: "",
-            respuesta4: "",
-            respuestaCorrecta: "",
-            nombreTest: '',
-            autor: '',
-            time: '',
-
-        }
-    })
-
-
-    const onChangeTex = (event, onChange, name) => {
-
-        if (event.target.value != '') {
-            activate[name] = false
-            setActivate({ ...activate })
-        } else {
-            activate[name] = true
-            setActivate({ ...activate })
-        }
-        onChange(event.target.value)
-    }
-
-
-
-    const actualizarRespuestaCorrecta = (name) => {
-        setValue('respuestaCorrecta', getValues(name))
-    }
-
-    const onSubmit = (data) => {
-        const { autor, time, nombreTest, ...dataFilter } = data
-        setPreguntast([...preguntas, dataFilter])
-        handleClose()
-
-    }
-
-    const handleCreateTest = (data) => {
-        const { autor, time, nombreTest } = data
-        if (preguntas.length <= 0) {
-            alert('no puedes guardar')
-        } else {
-            const guardar = {
-                codigo: Math.random().toString(35).substring(2, 9),
-                autor,
-                time,
-                nombreTest,
-                preguntas
-            }
-            const tests = JSON.parse(localStorage.getItem('tests'))
-            if (tests) {
-                tests.push(guardar)
-                localStorage.setItem('tests', JSON.stringify(tests))
-
-            } else {
-                localStorage.setItem('tests', JSON.stringify([guardar]))
-                alert('guardado')
-            }
-            navigate('/')
-            reset()
-            setPreguntast([])
-        }
-    }
 
     return (
         <>
@@ -112,28 +24,43 @@ const CreateTest = () => {
                             <Form.Group className="mb-3 text-center" controlId="formBasicEmail">
                                 <Form.Label>Nombre del test</Form.Label>
                                 <Form.Control
-                                className=" border-danger"
+                                    className=" border-danger"
                                     type="text"
+                                    name={"nombreTest"}
                                     placeholder="Nombre del test"
-                                    {...register('nombreTest')}
+                                    {...register('nombreTest', { required: 'campo Obligatorio' })}
                                 />
+                                {errors.nombreTest && <p className=" text-danger">{errors.nombreTest.message}  </p>}
                             </Form.Group>
 
 
                             <Form.Group className="mb-3 text-center" controlId="formBasicEmail">
                                 <Form.Label>Autor del test</Form.Label>
-                                <Form.Control type="text" className=" border-danger" placeholder="Autor del test"  {...register('autor')} />
-                                
+                                <Form.Control
+                                    name={"autor"}
+                                    type="text"
+                                    className=" border-danger"
+                                    placeholder="Autor del test"
+                                    {...register('autor', { required: 'campo Obligatorio' })}
+                                />
+                                {errors.autor && <p className=" text-danger">{errors.autor.message}  </p>}
                             </Form.Group>
                         </Col>
                         <Col md={6}>
                             <Form.Group className="mb-3 text-center " controlId="formBasicEmail">
                                 <Form.Label >Duracion de test
                                     <Form.Label>
-                                        
+
                                     </Form.Label>
                                 </Form.Label>
-                                <Form.Control type="text"  {...register('time')} className=" border-danger"/>
+                                <Form.Control
+                                    name={"time"}
+                                    type="text"
+                                    className=" border-danger"
+                                    placeholder="Tiemp De Examen"
+                                    {...register('time',  { required: 'campo Obligatorio' })}
+                                />
+                                {errors.time && <p className=" text-danger">{errors.time.message}  </p>}
                             </Form.Group>
                         </Col>
                     </Row>
@@ -199,9 +126,7 @@ const CreateTest = () => {
                                         placeholder="ingrese su pregunta"
                                         autoFocus
                                         {...field}
-
                                     />
-
                                 )}
                             />
                             {errors.pregunta && <p className=" text-danger">{errors.pregunta.message}  </p>}
@@ -229,12 +154,8 @@ const CreateTest = () => {
                                         name={field.name}
                                         onChangeTwo={(e) => actualizarRespuestaCorrecta(field.name)}
                                         nameRadio='respuestaCorrecta'
-
-
                                     />
-
                                 )}
-
                             />
                             {errors.respuesta1 && <p className=" text-danger">{errors.respuesta1.message}  </p>}
                         </Form.Group>

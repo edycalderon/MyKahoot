@@ -38,7 +38,7 @@ const Temporizador = ({ time }) => {
 
     return (
         <>
-            <div class="card bg-black text-center">
+            <div class="card bg-black text-center rounded-pill">
                 <div data-status="inprogress" class="teams">
                     <span class="team-info team-away">
                         <span class="team-info-container">
